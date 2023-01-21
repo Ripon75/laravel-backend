@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
+use App\Models\Admin;
 use App\Utils\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class Authcontroller extends Controller
+class AuthController extends Controller
 {
     protected $response;
 
@@ -23,8 +23,8 @@ class Authcontroller extends Controller
     {
         $validator = Validator::make($request->All(), [
             'name'         => ['required'],
-            'email'        => ['nullable', 'unique:users,email'],
-            'phone_number' => ['required', 'unique:users,phone_number'],
+            'email'        => ['nullable', 'unique:admins,email'],
+            'phone_number' => ['required', 'unique:admins,phone_number'],
             'password'     => ['required', 'confirmed']
         ]);
 
@@ -37,16 +37,16 @@ class Authcontroller extends Controller
         $phoneNumber = $request->input('phone_number', null);
         $password    = $request->input('password', null);
 
-        $userObj = new User();
+        $adminObj = new Admin();
 
-        $userObj->name         = $name;
-        $userObj->email        = $email;
-        $userObj->phone_number = $phoneNumber;
-        $userObj->password     = Hash::make($password);
+        $adminObj->name         = $name;
+        $adminObj->email        = $email;
+        $adminObj->phone_number = $phoneNumber;
+        $adminObj->password     = Hash::make($password);
 
-        $res = $userObj->save();
+        $res = $adminObj->save();
         if ($res) {
-            return $this->response->response($userObj, __('auth.user_create'));
+            return $this->response->response($adminObj, __('auth.admin_create'));
         }
     }
 
@@ -64,11 +64,12 @@ class Authcontroller extends Controller
         $phoneNumber = $request->input('phone_number', null);
         $password    = $request->input('password', null);
 
-        if (Auth::attempt(['phone_number' => $phoneNumber, 'password' => $password])) {
-            $user = Auth::user();
-            $token = $user->createToken('user-token', ['type:user'])->plainTextToken;
+        $admin = Admin::where('phone_number', $phoneNumber)->first();
 
-            return $this->response->response($user, __('auth.user_info'), $token);
+        if ($admin && Hash::check($password, $admin->password)) {
+            $token = $admin->createToken('admin-token', ['type:admin'])->plainTextToken;
+
+            return $this->response->response($admin, __('auth.admin_info'), $token);
         } else {
             return $this->response->error(null, __('auth.failed'));
         }
