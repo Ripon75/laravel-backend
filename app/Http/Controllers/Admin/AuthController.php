@@ -74,4 +74,12 @@ class AuthController extends Controller
             return $this->response->error(null, __('auth.failed'));
         }
     }
+
+    public function logout()
+    {
+        $user = Auth::user();
+        $user->tokens()->delete();
+
+        return $this->response->response(null, __('auth.admin_logout'), null);
+    }
 }

@@ -12,6 +12,10 @@ Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
 Route::post('/register', [Authcontroller::class, 'register']);
 Route::post('/login', [Authcontroller::class, 'login']);
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [Authcontroller::class, 'logout']);
+});
+
 
 Route::fallback(function () {
     return 'This route is not define';
