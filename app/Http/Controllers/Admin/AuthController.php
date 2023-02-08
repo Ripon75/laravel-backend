@@ -6,7 +6,6 @@ use App\Models\Admin;
 use App\Utils\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,10 +74,9 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        $user = Auth::user();
-        $user->tokens()->delete();
+        $request->user()->tokens()->delete();
 
         return $this->response->response(null, __('auth.admin_logout'), null);
     }
