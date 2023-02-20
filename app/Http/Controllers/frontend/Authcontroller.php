@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\User;
 use App\Utils\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class Authcontroller extends Controller
@@ -46,7 +45,7 @@ class Authcontroller extends Controller
 
         $res = $userObj->save();
         if ($res) {
-            return $this->response->response($userObj, __('auth.user_create'));
+            return $this->response->response($userObj, __('auth.admin_create'));
         }
     }
 
@@ -64,13 +63,21 @@ class Authcontroller extends Controller
         $phoneNumber = $request->input('phone_number', null);
         $password    = $request->input('password', null);
 
-        if (Auth::attempt(['phone_number' => $phoneNumber, 'password' => $password])) {
-            $user = Auth::user();
+        $user = User::where('phone_number', $phoneNumber)->first();
+
+        if ($user && Hash::check($password, $user->password)) {
             $token = $user->createToken('user-token', ['type:user'])->plainTextToken;
 
             return $this->response->response($user, __('auth.user_info'), $token);
         } else {
             return $this->response->error(null, __('auth.failed'));
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return $this->response->response(null, __('auth.user_logout'), null);
     }
 }
