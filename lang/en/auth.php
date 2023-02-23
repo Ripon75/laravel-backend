@@ -13,13 +13,11 @@ return [
     |
     */
 
-    'user_create'  => 'User created successfully.',
-    'admin_create' => 'Admin created successfully.',
-    'user_info'    => 'User information.',
-    'admin_info'   => 'Admin information.',
-    'admin_logout' => 'Admin logout successfully.',
-    'failed'       => 'These credentials do not match our records.',
-    'password'     => 'The provided password is incorrect.',
-    'throttle'     => 'Too many login attempts. Please try again in :seconds seconds.',
+    'user_create' => 'User created successfully.',
+    'user_info'   => 'User information.',
+    'user_logout' => 'Logout successfully.',
+    'failed'      => 'These credentials do not match our records.',
+    'password'    => 'The provided password is incorrect.',
+    'throttle'    => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];
