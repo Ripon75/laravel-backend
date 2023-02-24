@@ -19,10 +19,10 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->foreignId('address_id')->constrained('addresses')->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('pg_id')->constrained('payment_gateways')->onUpdate('cascade')
-                ->onDelete('cascade')->comment('Payment gateway')->nullable();
-            $table->foreignId('current_status_id')->constrained('statuses')->onUpdate('cascade')
-                ->onDelete('cascade')->nullable();
+            $table->foreignId('pg_id')->nullable()->constrained('payment_gateways')
+                ->onUpdate('cascade')->onDelete('cascade')->comment('Payment gateway');
+            $table->foreignId('current_status_id')->nullable()->constrained('statuses')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamp('current_status_at')->nullable();
             $table->decimal('delivery_charge', 8, 2)->default(0);
             $table->boolean('is_paid')->default(false);

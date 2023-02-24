@@ -18,17 +18,15 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('status')->default('active');
-            $table->decimal('price', 20, 2)->default(0)
-                ->comment('Original price');
-            $table->decimal('promo_price', 20, 2)->default(0)
-                ->comment('Offer price');
+            $table->decimal('price', 20, 2)->default(0)->comment('Original price');
+            $table->decimal('promo_price', 20, 2)->default(0)->comment('Offer price');
             $table->decimal('current_purchase_price', 20, 2)->default(0);
             $table->decimal('avg_purchase_price', 20, 2)->default(0);
             $table->bigInteger('current_stock')->default(0);
-            $table->foreignId('category_id')->constrained('categories')->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('brand_id')->constrained('brands')->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('brand_id')->nullable()->constrained('brands')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('size')->nullable();
             $table->string('color')->nullable();
             $table->string('img_src')->nullable();
