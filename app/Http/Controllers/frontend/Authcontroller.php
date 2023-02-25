@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\User;
-use App\Utils\Response;
+use App\Utils\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class Authcontroller extends Controller
 {
-    protected $response;
-
-    public function __construct(Response $response)
-    {
-        $this->response = $response;
-    }
-
     public function register(Request $request)
     {
         $validator = Validator::make($request->All(), [
@@ -28,7 +21,7 @@ class Authcontroller extends Controller
         ]);
 
         if ($validator->stopOnFirstFailure()->fails()) {
-            return $this->response->error(null, $validator->errors());
+            return Helper::error(null, $validator->errors());
         }
 
         $name        = $request->input('name', null);
@@ -45,7 +38,7 @@ class Authcontroller extends Controller
 
         $res = $userObj->save();
         if ($res) {
-            return $this->response->response($userObj, __('auth.admin_create'));
+            return Helper::response($userObj, __('auth.user_create'));
         }
     }
 
@@ -57,7 +50,7 @@ class Authcontroller extends Controller
         ]);
 
         if ($validator->stopOnFirstFailure()->fails()) {
-            return $this->response->error(null, $validator->errors());
+            return Helper::error(null, $validator->errors());
         }
 
         $phoneNumber = $request->input('phone_number', null);
@@ -68,9 +61,9 @@ class Authcontroller extends Controller
         if ($user && Hash::check($password, $user->password)) {
             $token = $user->createToken('user-token', ['type:user'])->plainTextToken;
 
-            return $this->response->response($user, __('auth.user_info'), $token);
+            return Helper::response($user, __('auth.user_info'), $token);
         } else {
-            return $this->response->error(null, __('auth.failed'));
+            return Helper::error(null, __('auth.failed'));
         }
     }
 
@@ -78,6 +71,6 @@ class Authcontroller extends Controller
     {
         $request->user()->tokens()->delete();
 
-        return $this->response->response(null, __('auth.user_logout'), null);
+        return Helper::response(null, __('auth.user_logout'), null);
     }
 }

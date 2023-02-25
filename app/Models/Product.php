@@ -44,4 +44,16 @@ class Product extends Model
         'created_at'             => 'timestamp',
         'updated_at'             => 'timestamp'
     ];
+
+    // protected function imgSrc(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($value) => 'http://127.0.0.1:8000/'.$value,
+    //     );
+    // }
+
+    public function getImgSrcAttribute($value){
+        $imgURL = 'http://127.0.0.1:8000/'.$value;
+        return $imgURL;
+    }
 }
