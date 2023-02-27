@@ -21,8 +21,10 @@ return new class extends Migration
             $table->unsignedInteger('quantity')->default(1);
             $table->decimal('price', 20, 2);
             $table->decimal('promo_price', 20, 2)->default(0);
-            $table->string('size', 20, 2)->default(0);
-            $table->string('color', 20, 2)->default(0);
+            $table->foreignId('size_id')->constrained('sizes')->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('color_id')->constrained('colors')->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->foreignId('created_by_id')->nullable()->constrained('users')->onUpdate('cascade')
                 ->onDelete('cascade')->comment('Who add this item to cart.');
             $table->timestamps();
