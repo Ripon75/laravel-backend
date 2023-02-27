@@ -45,15 +45,14 @@ class Product extends Model
         'updated_at'             => 'timestamp'
     ];
 
-    // protected function imgSrc(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn ($value) => 'http://127.0.0.1:8000/'.$value,
-    //     );
-    // }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
 
     public function getImgSrcAttribute($value){
-        $imgURL = 'http://127.0.0.1:8000/'.$value;
+        $baseURL = config('app.url');
+        $imgURL = $baseURL.'/'.$value;
         return $imgURL;
     }
 }

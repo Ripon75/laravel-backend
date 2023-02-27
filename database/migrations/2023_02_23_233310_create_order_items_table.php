@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedInteger('quantity')->default(1);
             $table->decimal('price', 20, 2);
             $table->decimal('promo_price', 20, 2)->default(0);
+            $table->string('size', 20, 2)->default(0);
+            $table->string('color', 20, 2)->default(0);
             $table->timestamps();
 
             $table->primary(['order_id', 'item_id']);
