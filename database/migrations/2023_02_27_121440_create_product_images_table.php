@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('img_src')->nullbale();
+            $table->boolean('is_active')->default(0);
             $table->timestamps();
         });
     }

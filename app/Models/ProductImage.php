@@ -20,4 +20,15 @@ class ProductImage extends Model
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function getImgSrcAttribute($value){
+        $baseURL = config('app.url');
+        $imgURL = $baseURL.'/'.$value;
+        return $imgURL;
+    }
 }

@@ -26,7 +26,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with(['category:id,name'])->find($id);
+        $product = Product::with(['category:id,name', 'images', 'sizes:id,name,slug', 'colors'])->find($id);
 
         if ($product) {
             return Helper::response($product, 'Product single view');

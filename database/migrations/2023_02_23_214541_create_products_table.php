@@ -27,8 +27,6 @@ return new class extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('brand_id')->nullable()->constrained('brands')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->string('size')->nullable();
-            $table->string('color')->nullable();
             $table->string('img_src')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
