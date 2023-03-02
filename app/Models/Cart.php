@@ -43,7 +43,7 @@ class Cart extends Model
     }
 
     // Get current customer cart
-    public function getCurrentCustomerCart()
+    static public function getCurrentCustomerCart()
     {
         if (Auth::check()) {
             $authUser = Auth::user();

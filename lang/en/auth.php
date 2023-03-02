@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'user_create' => 'User created successfully.',
-    'user_info'   => 'User information.',
+    'user_create' => 'Registration successfully.',
+    'user_login'   => 'Login successfully.',
     'user_logout' => 'Logout successfully.',
     'failed'      => 'These credentials do not match our records.',
     'password'    => 'The provided password is incorrect.',

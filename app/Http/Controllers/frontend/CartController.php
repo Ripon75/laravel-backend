@@ -43,8 +43,7 @@ class CartController extends Controller
         }
 
         // Get customer cart
-        $cart = new Cart;
-        $cart = $cart->getCurrentCustomerCart();
+        $cart = Cart::getCurrentCustomerCart();
         if (count($cart->items)) {
             foreach ($cart->items as $item) {
                 if ($item->id == $itemId && $item->pivot->size_id == $sizeId && $item->pivot->color_id == $colorId) {
@@ -64,7 +63,7 @@ class CartController extends Controller
             ]
         );
 
-        return Helper::response($res, 'Item added successfully');
+        return Helper::response($res, 'Product added successfully');
     }
 
     public function removeItem(Request $request)
@@ -81,11 +80,20 @@ class CartController extends Controller
             return Helper::error(null, 'Product not found');
         }
 
-        $cart = new Cart;
-
-        $cart = $cart->getCurrentCustomerCart();
+        $cart = Cart::getCurrentCustomerCart();
         $res  = $cart->items()->detach($itemId);
 
-        return Helper::response($res, 'Item removed successfuly');
+        return Helper::response($res, 'Product removed successfuly');
+    }
+
+    public function cartItemCount()
+    {
+        $cartItemCount = 0;
+        $cart = Cart::getCurrentCustomerCart();
+        if ($cart) {
+            $cartItemCount = $cart->items->count() ?? 0;
+        }
+
+        return Helper::response($cartItemCount, 'Number of items in cart');
     }
 }

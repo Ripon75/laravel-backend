@@ -72,7 +72,7 @@ class AuthController extends Controller
         if ($user && Hash::check($password, $user->password)) {
             $token = $user->createToken('user-token', ['type:user'])->plainTextToken;
 
-            return Helper::response($user, __('auth.user_info'), $token);
+            return Helper::response($user, __('auth.user_login'), $token);
         } else {
             return Helper::error(null, __('auth.failed'));
         }
