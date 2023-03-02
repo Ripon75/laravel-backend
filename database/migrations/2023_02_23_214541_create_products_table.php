@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('status')->default('active');
             $table->decimal('price', 20, 2)->default(0)->comment('Original price');
-            $table->decimal('promo_price', 20, 2)->default(0)->comment('Offer price');
+            $table->decimal('offer_price', 20, 2)->default(0);
             $table->decimal('current_purchase_price', 20, 2)->default(0);
             $table->decimal('avg_purchase_price', 20, 2)->default(0);
             $table->bigInteger('current_stock')->default(0);

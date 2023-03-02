@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\User;
 use App\Utils\Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class Authcontroller extends Controller
+class AuthController extends Controller
 {
     public function register(Request $request)
     {
@@ -29,16 +30,26 @@ class Authcontroller extends Controller
         $phoneNumber = $request->input('phone_number', null);
         $password    = $request->input('password', null);
 
-        $userObj = new User();
+        DB::beginTransaction();
 
-        $userObj->name         = $name;
-        $userObj->email        = $email;
-        $userObj->phone_number = $phoneNumber;
-        $userObj->password     = Hash::make($password);
+        try {
+            $userObj = new User();
 
-        $res = $userObj->save();
-        if ($res) {
-            return Helper::response($userObj, __('auth.user_create'));
+            $userObj->name         = $name;
+            $userObj->email        = $email;
+            $userObj->phone_number = $phoneNumber;
+            $userObj->password     = Hash::make($password);
+            $res = $userObj->save();
+            DB::commit();
+
+            if ($res) {
+                return Helper::response($userObj, __('auth.user_create'));
+            } else {
+                return Helper::error(null, $validator->errors());
+            }
+        } catch (\Exception $e) {
+            info($e);
+            DB::rollback();
         }
     }
 

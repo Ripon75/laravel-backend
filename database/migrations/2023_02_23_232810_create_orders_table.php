@@ -25,6 +25,8 @@ return new class extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamp('current_status_at')->nullable();
             $table->decimal('delivery_charge', 8, 2)->default(0);
+            $table->decimal('order_value', 8, 2)->default(0);
+            $table->decimal('order_discount', 8, 2)->default(0);
             $table->boolean('is_paid')->default(false);
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();

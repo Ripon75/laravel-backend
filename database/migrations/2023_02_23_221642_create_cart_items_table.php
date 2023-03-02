@@ -20,16 +20,15 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->unsignedInteger('quantity')->default(1);
             $table->decimal('price', 20, 2);
-            $table->decimal('promo_price', 20, 2)->default(0);
+            $table->decimal('offer_price', 20, 2)->default(0);
+            $table->decimal('discount', 20, 2)->default(0);
             $table->foreignId('size_id')->constrained('sizes')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('color_id')->constrained('colors')->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('created_by_id')->nullable()->constrained('users')->onUpdate('cascade')
-                ->onDelete('cascade')->comment('Who add this item to cart.');
             $table->timestamps();
 
-            $table->primary(['cart_id', 'item_id']);
+            $table->primary(['cart_id', 'item_id', 'size_id', 'color_id']);
         });
     }
 
