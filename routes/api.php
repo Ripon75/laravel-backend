@@ -6,19 +6,19 @@ use App\Http\Controllers\frontend\AuthController;
 use App\Http\Controllers\frontend\ProductController;
 
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login',    [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 // Product route
-Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products',      [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // All Cart route
-    // Route::get('/checkout',                   [PageController::class, 'checkout'])->name('checkout');
-    Route::post('/cart/item/add',             [CartController::class, 'addItem'])->name('cart.item.add');
-    // Route::post('/cart/item/remove',          [CartController::class, 'removeItem'])->name('cart.item.remove');
-    // Route::get('/cart/empty',                 [CartController::class, 'emptyCart']);
-    // Route::post('/cart/shipping/address/add', [CartController::class, 'addShippingAdress']);
+    Route::get('/get/cart/items',     [CartController::class, 'getCartItem']);
+    Route::post('/add/cart/items',    [CartController::class, 'addItem']);
+    Route::get('/count/cart/items',   [CartController::class, 'cartItemCount']);
+    Route::post('/remove/cart/items', [CartController::class, 'removeItem']);
+    Route::get('/empty/cart/items',   [CartController::class, 'emptyCart']);
     // Logout route
     Route::post('/logout', [AuthController::class, 'logout']);
 });

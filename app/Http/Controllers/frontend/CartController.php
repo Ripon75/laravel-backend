@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
+    public function getCartItem()
+    {
+        $cart = Cart::getCurrentCustomerCart();
+        if ($cart) {
+            return Helper::response($cart->items, 'Cart information');
+        } else {
+            return Helper::error(null, 'Product already added to cart');
+        }
+    }
+
     public function addItem(Request $request)
     {
         $validator = Validator::make($request->All(), [
@@ -36,11 +46,14 @@ class CartController extends Controller
         }
 
         $discount   = 0;
+        $totalPrice = 0;
         $price      = $product->price;
         $offerPrice = $product->offer_price;
         if ($offerPrice > 0 && $offerPrice < $price) {
             $discount = $price - $offerPrice;
         }
+        $appliedPrice = $offerPrice > 0 ? $offerPrice : $price;
+        $totalPrice = $appliedPrice * $quantity;
 
         // Get customer cart
         $cart = Cart::getCurrentCustomerCart();
@@ -52,18 +65,29 @@ class CartController extends Controller
             }
         }
 
-        // $cart->items()->detach($itemId);
         $res = $cart->items()->attach($itemId, [
                 'quantity'    => $quantity,
                 'price'       => $price,
                 'offer_price' => $offerPrice,
                 'discount'    => $discount,
+                'total_price' => $totalPrice,
                 'size_id'     => $sizeId,
                 'color_id'    => $colorId
             ]
         );
 
         return Helper::response($res, 'Product added successfully');
+    }
+
+    public function cartItemCount()
+    {
+        $cartItemCount = 0;
+        $cart = Cart::getCurrentCustomerCart();
+        if ($cart) {
+            $cartItemCount = $cart->items->count() ?? 0;
+        }
+
+        return Helper::response($cartItemCount, 'Number of items in cart');
     }
 
     public function removeItem(Request $request)
@@ -84,16 +108,5 @@ class CartController extends Controller
         $res  = $cart->items()->detach($itemId);
 
         return Helper::response($res, 'Product removed successfuly');
-    }
-
-    public function cartItemCount()
-    {
-        $cartItemCount = 0;
-        $cart = Cart::getCurrentCustomerCart();
-        if ($cart) {
-            $cartItemCount = $cart->items->count() ?? 0;
-        }
-
-        return Helper::response($cartItemCount, 'Number of items in cart');
     }
 }

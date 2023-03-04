@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('price', 20, 2);
             $table->decimal('offer_price', 20, 2)->default(0);
             $table->decimal('discount', 20, 2)->default(0);
+            $table->decimal('total', 20, 2)->default(0)->comment('Item total price');
             $table->foreignId('size_id')->constrained('sizes')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('color_id')->constrained('colors')->onUpdate('cascade')
