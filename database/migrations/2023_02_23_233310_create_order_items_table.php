@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('item_id')->constrained('products')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->unsignedInteger('quantity')->default(1);
-            $table->decimal('price', 20, 2);
-            $table->decimal('offer_price', 20, 2)->default(0);
+            $table->decimal('selling_price', 20, 2)->default(0);
+            $table->decimal('total_price', 20, 2)->default(0);
             $table->foreignId('size_id')->constrained('sizes')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('color_id')->constrained('colors')->onUpdate('cascade')

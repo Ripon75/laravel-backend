@@ -20,7 +20,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->unsignedInteger('quantity')->default(1);
             $table->decimal('selling_price', 20, 2)->default(0);
-            $table->decimal('total', 20, 2)->default(0)->comment('Item total price');
+            $table->decimal('total_price', 20, 2)->default(0)->comment('Item total price');
             $table->foreignId('size_id')->constrained('sizes')->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('color_id')->constrained('colors')->onUpdate('cascade')

@@ -56,6 +56,126 @@ class ProductImageSeeder extends Seeder
                 'img_src'    => 'images/products/product-4.jpg',
                 'is_active'  => 0
             ],
+            [
+                'product_id' => 3,
+                'img_src'    => 'images/products/product-1.jpg',
+                'is_active'  => 1
+            ],
+            [
+                'product_id' => 3,
+                'img_src'    => 'images/products/product-2.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 3,
+                'img_src'    => 'images/products/product-3.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 3,
+                'img_src'    => 'images/products/product-4.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 4,
+                'img_src'    => 'images/products/product-1.jpg',
+                'is_active'  => 1
+            ],
+            [
+                'product_id' => 4,
+                'img_src'    => 'images/products/product-2.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 4,
+                'img_src'    => 'images/products/product-3.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 4,
+                'img_src'    => 'images/products/product-4.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 5,
+                'img_src'    => 'images/products/product-1.jpg',
+                'is_active'  => 1
+            ],
+            [
+                'product_id' => 5,
+                'img_src'    => 'images/products/product-2.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 5,
+                'img_src'    => 'images/products/product-3.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 5,
+                'img_src'    => 'images/products/product-4.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 6,
+                'img_src'    => 'images/products/product-1.jpg',
+                'is_active'  => 1
+            ],
+            [
+                'product_id' => 6,
+                'img_src'    => 'images/products/product-2.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 6,
+                'img_src'    => 'images/products/product-3.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 6,
+                'img_src'    => 'images/products/product-4.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 7,
+                'img_src'    => 'images/products/product-1.jpg',
+                'is_active'  => 1
+            ],
+            [
+                'product_id' => 7,
+                'img_src'    => 'images/products/product-2.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 7,
+                'img_src'    => 'images/products/product-3.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 7,
+                'img_src'    => 'images/products/product-4.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 8,
+                'img_src'    => 'images/products/product-1.jpg',
+                'is_active'  => 1
+            ],
+            [
+                'product_id' => 8,
+                'img_src'    => 'images/products/product-2.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 8,
+                'img_src'    => 'images/products/product-3.jpg',
+                'is_active'  => 0
+            ],
+            [
+                'product_id' => 8,
+                'img_src'    => 'images/products/product-4.jpg',
+                'is_active'  => 0
+            ],
         ];
 
         DB::table('product_images')->insert($productImages);
