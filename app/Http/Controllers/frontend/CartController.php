@@ -77,13 +77,15 @@ class CartController extends Controller
 
     public function cartItemCount()
     {
-        $cartItemCount = 0;
-        $cart = Cart::getCurrentCustomerCart();
-        if ($cart) {
-            $cartItemCount = $cart->items->count() ?? 0;
+        if (Auth::check()) {
+            $cartItemCount = 0;
+            $cart = Cart::getCurrentCustomerCart();
+            if ($cart) {
+                $cartItemCount = $cart->items->count() ?? 0;
+            }
+    
+            return Helper::response($cartItemCount, 'Number of items in cart');
         }
-
-        return Helper::response($cartItemCount, 'Number of items in cart');
     }
 
     public function updateCartQty(Request $request)

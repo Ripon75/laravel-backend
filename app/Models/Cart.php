@@ -43,15 +43,16 @@ class Cart extends Model
     }
 
     // Get current customer cart
-    static public function getCurrentCustomerCart()
+    public static  function getCurrentCustomerCart()
     {
         if (Auth::check()) {
             $authUser = Auth::user();
-            $cart  = $authUser->cart;
+            $cart     = $authUser->cart;
             if ($cart) {
                 return $cart;
             } else {
-                return $this->createCurrentCustomerCart($authUser->id);
+                $cartObj = new self();
+                return $cartObj->createCurrentCustomerCart($authUser->id);
             }
         } else {
             return false;

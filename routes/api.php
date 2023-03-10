@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\AuthController;
+use App\Http\Controllers\frontend\OrderController;
 use App\Http\Controllers\frontend\ProductController;
 
 
@@ -20,6 +21,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/count/cart/items',   [CartController::class, 'cartItemCount']);
     Route::post('/remove/cart/items', [CartController::class, 'removeItem']);
     Route::get('/empty/cart/items',   [CartController::class, 'emptyCart']);
+    // Order route
+    Route::post('/orders', [OrderController::class, 'store']);
     // Logout route
     Route::post('/logout', [AuthController::class, 'logout']);
 });
