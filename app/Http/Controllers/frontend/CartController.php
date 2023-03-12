@@ -47,11 +47,20 @@ class CartController extends Controller
             return false;
         }
 
-        $totalPrice   = 0;
-        $price        = $product->price;
-        $offerPrice   = $product->offer_price;
-        $sellingPrice = $offerPrice > 0 ? $offerPrice : $price;
-        $totalPrice   = $sellingPrice * $quantity;
+        $discount       = 0;
+        $totalPrice     = 0;
+        $totalSellPrice = 0;
+        $totalDiscount  = 0;
+        $price          = $product->price;
+        $offerPrice     = $product->offer_price;
+        $sellPrice      = $offerPrice > 0 ? $offerPrice : $price;
+        $totalPrice     = $price * $quantity;
+        $totalSellPrice = $sellPrice * $quantity;
+        // Calculate discount
+        if ($offerPrice > 0) {
+            $discount      = $price - $offerPrice;
+            $totalDiscount = $discount * $quantity;
+        }
 
         // Get customer cart
         $cart = Cart::getCurrentCustomerCart();
@@ -64,11 +73,15 @@ class CartController extends Controller
         }
 
         $res = $cart->items()->attach($itemId, [
-                'quantity'      => $quantity,
-                'selling_price' => $sellingPrice,
-                'total_price'   => $totalPrice,
-                'size_id'       => $sizeId,
-                'color_id'      => $colorId
+                'size_id'          => $sizeId,
+                'color_id'         => $colorId,
+                'quantity'         => $quantity,
+                'price'            => $price,
+                'sell_price'       => $sellPrice,
+                'discount'         => $discount,
+                'total_price'      => $totalPrice,
+                'total_sell_price' => $totalSellPrice,
+                'total_discount'   => $totalDiscount,
             ]
         );
 

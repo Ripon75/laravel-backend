@@ -26,11 +26,15 @@ return new class extends Migration
             $table->timestamp('current_status_at')->nullable();
             $table->foreignId('coupon_id')->nullable()->constrained('coupons')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->decimal('coupon_value', 8, 2)->nullable()->default(0);
-            $table->decimal('delivery_charge', 8, 2)->default(0);
-            $table->decimal('order_value', 8, 2)->default(0);
             $table->boolean('is_paid')->default(false);
             $table->timestamp('paid_at')->nullable();
+            $table->decimal('coupon_value', 20, 2)->nullable()->default(0);
+            $table->decimal('delivery_charge', 20, 2)->default(0);
+            $table->decimal('order_price', 20, 2)->default(0);
+            $table->decimal('order_sell_price', 20, 2)->default(0);
+            $table->decimal('order_discount', 20, 2)->default(0);
+            $table->decimal('order_net_price', 20, 2)->default(0);
+            $table->decimal('order_payable_price', 20, 2)->default(0);
             $table->timestamps();
         });
     }
