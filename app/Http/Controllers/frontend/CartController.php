@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Auth;
 use App\Models\Cart;
 use App\Utils\Helper;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
@@ -84,8 +84,12 @@ class CartController extends Controller
                 'total_discount'   => $totalDiscount,
             ]
         );
+        if ($res) {
+            return Helper::response($res, 'Product added successfully');
+        } else {
+            return Helper::error(null, 'Something went to wrong');
+        }
 
-        return Helper::response($res, 'Product added successfully');
     }
 
     public function cartItemCount()
@@ -98,6 +102,8 @@ class CartController extends Controller
             }
     
             return Helper::response($cartItemCount, 'Number of items in cart');
+        } else {
+            return false;
         }
     }
 

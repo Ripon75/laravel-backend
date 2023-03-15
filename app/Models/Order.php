@@ -25,11 +25,51 @@ class Order extends Model
         'address_id'        => 'integer',
         'pg_id'             => 'integer',
         'current_status_id' => 'integer',
-        'current_status_at' => 'timestamp',
         'delivery_charge'   => 'decimal:2',
         'is_paid'           => 'boolean',
-        'paid_at'           => 'timestamp',
-        'created_at'        => 'timestamp',
-        'updated_at'        => 'timestamp'
+        'current_status_at' => 'timestamp:Y-m-d H:i:s',
+        'paid_at'           => 'timestamp:Y-m-d H:i:s',
+        'created_at'        => 'timestamp:Y-m-d H:i:s',
+        'updated_at'        => 'timestamp:Y-m-d H:i:s'
     ];
+
+    public function user()
+    {
+        $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function address()
+    {
+        $this->belongsTo(Address::class, 'address_id', 'id');
+    }
+
+    public function paymentGateway()
+    {
+        $this->belongsTo(PaymentGateway::class, 'pg_id', 'id');
+    }
+
+    public function currentStatus()
+    {
+        $this->belongsTo(Status::class, 'current_status_id', 'id');
+    }
+
+    public function items()
+    {
+        return $this->belongsToMany(Product::class, 'order_items', 'order_id', 'item_id')
+        ->withPivot('size_id', 'color_id', 'quantity', 'price', 'sell_price', 'discount',
+        'total_price', 'total_sell_price', 'total_discount')
+        ->withTimestamps();
+    }
+
+    public function getTotalPrice()
+    {
+        $totalPrice = $this->items->sum(function ($item) {
+            $itemTotal = $item->pivot->total_price;
+            $quantity  = $item->pivot->quantity;
+
+            return $itemTotal * $quantity;
+        });
+
+        return $totalPrice;
+    }
 }

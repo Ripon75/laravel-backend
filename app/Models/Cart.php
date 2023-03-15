@@ -38,7 +38,8 @@ class Cart extends Model
     public function items()
     {
         return $this->belongsToMany(Product::class, 'cart_items', 'cart_id', 'item_id')
-        ->withPivot('quantity', 'sell_price', 'total_price', 'size_id', 'color_id')
+        ->withPivot('size_id', 'color_id', 'quantity', 'price', 'sell_price', 'discount',
+        'total_price', 'total_sell_price', 'total_discount')
         ->withTimestamps();
     }
 

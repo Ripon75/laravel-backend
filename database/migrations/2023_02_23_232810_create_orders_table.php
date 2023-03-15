@@ -33,7 +33,6 @@ return new class extends Migration
             $table->decimal('order_price', 20, 2)->default(0);
             $table->decimal('order_sell_price', 20, 2)->default(0);
             $table->decimal('order_discount', 20, 2)->default(0);
-            $table->decimal('order_net_price', 20, 2)->default(0);
             $table->decimal('order_payable_price', 20, 2)->default(0);
             $table->timestamps();
         });
