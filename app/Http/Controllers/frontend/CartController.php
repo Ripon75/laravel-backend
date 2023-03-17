@@ -41,38 +41,39 @@ class CartController extends Controller
         $sizeId   = $request->input('size_id');
         $colorId  = $request->input('color_id');
 
-        // Check the item/product is exist in products table
-        $product = Product::find($itemId);
-        if(!$product) {
-            return false;
-        }
+        try {
+            // Check the item/product is exist in products table
+            $product = Product::find($itemId);
+            if(!$product) {
+                return false;
+            }
 
-        $discount       = 0;
-        $totalPrice     = 0;
-        $totalSellPrice = 0;
-        $totalDiscount  = 0;
-        $price          = $product->price;
-        $offerPrice     = $product->offer_price;
-        $sellPrice      = $offerPrice > 0 ? $offerPrice : $price;
-        $totalPrice     = $price * $quantity;
-        $totalSellPrice = $sellPrice * $quantity;
-        // Calculate discount
-        if ($offerPrice > 0) {
-            $discount      = $price - $offerPrice;
-            $totalDiscount = $discount * $quantity;
-        }
+            $discount       = 0;
+            $totalPrice     = 0;
+            $totalSellPrice = 0;
+            $totalDiscount  = 0;
+            $price          = $product->price;
+            $offerPrice     = $product->offer_price;
+            $sellPrice      = $offerPrice > 0 ? $offerPrice : $price;
+            $totalPrice     = $price * $quantity;
+            $totalSellPrice = $sellPrice * $quantity;
+            // Calculate discount
+            if ($offerPrice > 0) {
+                $discount      = $price - $offerPrice;
+                $totalDiscount = $discount * $quantity;
+            }
 
-        // Get customer cart
-        $cart = Cart::getCurrentCustomerCart();
-        if (count($cart->items)) {
-            foreach ($cart->items as $item) {
-                if ($item->id == $itemId && $item->pivot->size_id == $sizeId && $item->pivot->color_id == $colorId) {
-                    return Helper::error(null, 'Product already added to cart');
+            // Get customer cart
+            $cart = Cart::getCurrentCustomerCart();
+            if (count($cart->items)) {
+                foreach ($cart->items as $item) {
+                    if ($item->id == $itemId && $item->pivot->size_id == $sizeId && $item->pivot->color_id == $colorId) {
+                        return Helper::error(null, 'Product already added to cart');
+                    }
                 }
             }
-        }
 
-        $res = $cart->items()->attach($itemId, [
+            $cart->items()->attach($itemId, [
                 'size_id'          => $sizeId,
                 'color_id'         => $colorId,
                 'quantity'         => $quantity,
@@ -82,14 +83,12 @@ class CartController extends Controller
                 'total_price'      => $totalPrice,
                 'total_sell_price' => $totalSellPrice,
                 'total_discount'   => $totalDiscount,
-            ]
-        );
-        if ($res) {
-            return Helper::response($res, 'Product added successfully');
-        } else {
-            return Helper::error(null, 'Something went to wrong');
+            ]);
+            return Helper::response(null, 'Product added successfully');
+        } catch (\Exception $e) {
+            info($e);
+            return Helper::error(null, 'Something went wrong');
         }
-
     }
 
     public function cartItemCount()

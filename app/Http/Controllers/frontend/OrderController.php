@@ -67,7 +67,9 @@ class OrderController extends Controller
                     ];
                 }
                 $orderObj->items()->sync($itemIds);
+                $cart->emptyCart();
                 DB::commit();
+                info($orderObj->getTotalSellPrice());
                 return Helper::response($res, 'Order submitted successfully');
             }
         } catch (\Exception $e) {

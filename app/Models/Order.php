@@ -65,11 +65,19 @@ class Order extends Model
     {
         $totalPrice = $this->items->sum(function ($item) {
             $itemTotal = $item->pivot->total_price;
-            $quantity  = $item->pivot->quantity;
 
-            return $itemTotal * $quantity;
+            return $itemTotal;
         });
 
         return $totalPrice;
+    }
+
+    public function getTotalSellPrice()
+    {
+        $totalSellPrice = $this->items->sum(function($item) {
+            return $item->pivot->total_sell_price;
+        });
+        info($totalSellPrice);
+        return $totalSellPrice;
     }
 }
