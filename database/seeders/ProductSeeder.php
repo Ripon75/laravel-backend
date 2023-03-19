@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
     {
         $products = [
             [
-                'name'                   => "Colorful Stylish Shirt 1",
+                'name'                   => "Colorful Stylish Shirt",
                 'slug'                   => Str::slug("Colorful Stylish Shirt", '-'),
                 'status'                 => 'active',
                 'price'                  => 500,
@@ -31,8 +31,8 @@ class ProductSeeder extends Seeder
                 'img_src'                => 'images/products/product-1.jpg'
             ],
             [
-                'name'                   => "Colorful Zins Shirt 2",
-                'slug'                   => Str::slug("Colorful Zins Shirt", '-'),
+                'name'                   => "Zins Shirt",
+                'slug'                   => Str::slug("Zins Shirt", '-'),
                 'status'                 => 'active',
                 'price'                  => 450,
                 'offer_price'            => 420,
@@ -44,11 +44,11 @@ class ProductSeeder extends Seeder
                 'img_src'                => 'images/products/product-2.jpg'
             ],
             [
-                'name'                   => "Colorful Zins Shirt 3",
-                'slug'                   => Str::slug("Colorful Zins Shirt", '-'),
+                'name'                   => "T-Shirt",
+                'slug'                   => Str::slug("T Shirt", '-'),
                 'status'                 => 'active',
                 'price'                  => 500,
-                'offer_price'            => 480,
+                'offer_price'            => 0,
                 'current_purchase_price' => 400,
                 'avg_purchase_price'     => 400,
                 'current_stock'          => 100,
@@ -61,7 +61,7 @@ class ProductSeeder extends Seeder
                 'slug'                   => Str::slug("Colorful Zins Shirt", '-'),
                 'status'                 => 'active',
                 'price'                  => 600,
-                'offer_price'            => 520,
+                'offer_price'            => 0,
                 'current_purchase_price' => 500,
                 'avg_purchase_price'     => 500,
                 'current_stock'          => 100,

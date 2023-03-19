@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             ProductColorSeeder::class,
             ProductImageSeeder::class,
             ProductSizeSeeder::class,
+            AreaSeeder::class,
+            AddressSeeder::class,
+            StatusSeeder::class,
+            PaymentGatewaySeeder::class,
         ]);
     }
 }

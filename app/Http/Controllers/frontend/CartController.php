@@ -113,22 +113,44 @@ class CartController extends Controller
             'size_id'       => ['required', 'integer'],
             'color_id'      => ['required', 'integer'],
             'quantity'      => ['required', 'integer'],
-            'selling_price' => ['required']
         ]);
 
         if ($validator->stopOnFirstFailure()->fails()) {
             return Helper::error(null, $validator->errors());
         }
 
-        $itemId       = $request->input('item_id', null);
-        $sizeId       = $request->input('size_id', null);
-        $colorId      = $request->input('color_id', null);
-        $quantity     = $request->input('quantity', null);
-        $sellingPrice = $request->input('selling_price', null);
-        $totalPrice   = $sellingPrice * $quantity;
+        $itemId         = $request->input('item_id', null);
+        $sizeId         = $request->input('size_id', null);
+        $colorId        = $request->input('color_id', null);
+        $quantity       = $request->input('quantity', null);
 
+        $product = Product::find($itemId);
+        if (!$product) {
+            return false;
+        }
+
+        // Calculate total price
+        $discount   = 0;
+        $price      = $product->price;
+        $offerPrice = $product->offer_price;
+        $sellPrice  = $offerPrice > 0 ? $offerPrice : $price;
+        // Calculate discount
+        if ($offerPrice > 0) {
+            $discount = $price - $offerPrice;
+        }
+
+        $totalPrice     = $price * $quantity;
+        $totalSellPrice = $sellPrice * $quantity;
+        $totalDiscount  = $discount * $quantity;
+
+        // Update cart items
         $res = DB::table('cart_items')->where('item_id', $itemId)->where('size_id', $sizeId)
-        ->where('color_id', $colorId)->update(['quantity' => $quantity, 'total_price' => $totalPrice]);
+        ->where('color_id', $colorId)->update([
+            'quantity'         => $quantity,
+            'total_price'      => $totalPrice,
+            'total_sell_price' => $totalSellPrice,
+            'total_discount'   => $totalDiscount
+        ]);
 
         if ($res) {
             return Helper::response($res, 'Quantity updated successfuly');

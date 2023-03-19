@@ -31,7 +31,7 @@ return new class extends Migration
             $table->decimal('total_discount', 20, 2)->default(0);
             $table->timestamps();
 
-            $table->primary(['order_id', 'item_id']);
+            $table->primary(['order_id', 'item_id', 'size_id', 'color_id']);
         });
     }
 

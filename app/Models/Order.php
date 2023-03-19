@@ -61,23 +61,59 @@ class Order extends Model
         ->withTimestamps();
     }
 
-    public function getTotalPrice()
+    public function getOrderPrice()
     {
-        $totalPrice = $this->items->sum(function ($item) {
+        $OrderPrice = $this->items->sum(function ($item) {
             $itemTotal = $item->pivot->total_price;
 
             return $itemTotal;
         });
 
-        return $totalPrice;
+        return $OrderPrice;
     }
 
-    public function getTotalSellPrice()
+    public function getOrderSellPrice()
     {
-        $totalSellPrice = $this->items->sum(function($item) {
+        $orderSellPrice = $this->items->sum(function($item) {
             return $item->pivot->total_sell_price;
         });
-        info($totalSellPrice);
-        return $totalSellPrice;
+        return $orderSellPrice;
+    }
+
+    public function getOrderDiscount()
+    {
+        $orderDiscount = $this->items->sum(function($item) {
+            return $item->pivot->total_discount;
+        });
+
+        return $orderDiscount;
+    }
+
+    public function orderPayablePrice($round = null)
+    {
+        $orderSellPrice = $this->getOrderSellPrice();
+        $deliveryCharge = $this->delivery_charge;
+        $couponValue    = $this->coupon_value;
+
+        $orderPayablePrice = ($orderSellPrice + $deliveryCharge) - $couponValue;
+        if ($round === 'round') {
+            return round($orderPayablePrice);
+        } else {
+            return $orderPayablePrice;
+        }
+    }
+
+    public function updateOrderPrice($orderObj)
+    {
+        $orderPrice         = $this->getOrderPrice() ?? 0;
+        $orderSellPrice     = $this->getOrderSellPrice() ?? 0;
+        $orderDiscountPrice = $this->getOrderDiscount() ?? 0;
+        $orderPayablePrice  = $this->orderPayablePrice() ?? 0;
+
+        $orderObj->order_price         = $orderPrice;
+        $orderObj->order_sell_price    = $orderSellPrice;
+        $orderObj->order_discount      = $orderDiscountPrice;
+        $orderObj->order_payable_price = $orderPayablePrice;
+        $orderObj->save();
     }
 }

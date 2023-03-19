@@ -19,11 +19,9 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->foreignId('area_id')->constrained('areas')->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('title', 50)->nullable();
             $table->string('phone_number', 50)->nullable();
-            $table->string('line_one', 100)->nullable();
-            $table->string('line_two', 100)->nullable();
-            $table->string('post_code', 10)->nullable();
+            $table->string('title', 50)->nullable();
+            $table->string('address', 100)->nullable();
             $table->timestamps();
         });
     }

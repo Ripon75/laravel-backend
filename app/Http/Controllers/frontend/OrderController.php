@@ -55,9 +55,11 @@ class OrderController extends Controller
             if ($res) {
                 $itemIds = [];
                 foreach ($cart->items as $item) {
-                    $itemIds[$item->id] = [
+                    $itemIds[] = [
+                        'item_id'          => $item->id,
                         'size_id'          => $item->pivot->size_id,
                         'color_id'         => $item->pivot->color_id,
+                        'quantity'         => $item->pivot->quantity,
                         'price'            => $item->pivot->price,
                         'sell_price'       => $item->pivot->sell_price,
                         'discount'         => $item->pivot->discount,
@@ -67,9 +69,9 @@ class OrderController extends Controller
                     ];
                 }
                 $orderObj->items()->sync($itemIds);
+                $orderObj->updateOrderPrice($orderObj);
                 $cart->emptyCart();
                 DB::commit();
-                info($orderObj->getTotalSellPrice());
                 return Helper::response($res, 'Order submitted successfully');
             }
         } catch (\Exception $e) {
