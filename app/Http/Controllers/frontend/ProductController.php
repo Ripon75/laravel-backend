@@ -11,11 +11,23 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $paginate = config('crud.paginate.default');
+        $limit                 = $request->input('limit', null);
+        $pagination            = $request->input('pagination', false);
+        $paginationSize        = $request->input('pagination_size', null);
+        $defaultPaginationSize = config('crud.paginate.default');
+
+        $paginationSize = $paginationSize ? $paginationSize: $defaultPaginationSize;
+
 
         $products = new Product();
 
-        $products = $products->paginate($paginate);
+        if ($limit) {
+            $products = $products->take($limit)->latest()->get();
+        } elseif($pagination) {
+            $products = $products->paginate($paginationSize);
+        } else {
+            $products = $products->get();
+        }
 
         if ($products) {
             return Helper::response($products, 'Products list');

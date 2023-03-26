@@ -20,4 +20,10 @@ class Color extends Model
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_colors', 'color_id', 'product_id')
+        ->withTimestamps();
+    }
 }

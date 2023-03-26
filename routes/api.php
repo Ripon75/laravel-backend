@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\frontend\CartController;
-use App\Http\Controllers\frontend\AuthController;
-use App\Http\Controllers\frontend\OrderController;
-use App\Http\Controllers\frontend\ProductController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\SizeController;
+use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\ColorController;
+use App\Http\Controllers\Frontend\ProductController;
 
 
 Route::post('/login',    [AuthController::class, 'login']);
@@ -12,6 +14,9 @@ Route::post('/register', [AuthController::class, 'register']);
 // Product route
 Route::get('/products',      [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+// Color Route
+Route::get('/colors', [ColorController::class, 'index']);
+Route::get('/sizes', [SizeController::class, 'index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // All Cart route

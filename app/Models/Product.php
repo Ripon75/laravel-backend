@@ -66,7 +66,8 @@ class Product extends Model
 
     public function colors()
     {
-        return $this->belongsToMany(Color::class, 'product_colors', 'product_id', 'color_id')->withTimestamps();
+        return $this->belongsToMany(Color::class, 'product_colors', 'product_id', 'color_id')
+        ->withTimestamps();
     }
 
     public function images()
