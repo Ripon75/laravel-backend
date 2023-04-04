@@ -12,14 +12,9 @@ class SizeController extends Controller
     public function index()
     {
         $sizes = Size::withCount(['products'])->get();
-        $totalProducts = $sizes->sum('products_count');
-        $result = [
-            'sizes' => $sizes,
-            'total_products'  => $totalProducts,
-        ];
 
-        if ($result) {
-            return Helper::response($result, 'Sizes list');
+        if ($sizes) {
+            return Helper::response($sizes, 'Sizes list');
         } else {
             return Helper::error(null, 'Sizes not found');
         }

@@ -32,7 +32,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-
 Route::fallback(function () {
     return 'This route is not define';
 });

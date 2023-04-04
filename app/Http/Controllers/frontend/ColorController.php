@@ -12,14 +12,9 @@ class ColorController extends Controller
     public function index()
     {
         $colors = Color::withCount(['products'])->get();
-        $totalProducts = $colors->sum('products_count');
-        $result = [
-            'colors' => $colors,
-            'total_products'  => $totalProducts,
-        ];
 
-        if ($result) {
-            return Helper::response($result, 'Colors list');
+        if ($colors) {
+            return Helper::response($colors, 'Colors list');
         } else {
             return Helper::error(null, 'Colors not found');
         }
