@@ -20,27 +20,24 @@ class ProductController extends Controller
 
         $paginationSize = $paginationSize ? $paginationSize: $defaultPaginationSize;
 
-        $pagination = true;
-
         $products = new Product();
         
         if ($selectedColorIds) {
             $products = $products->whereHas('colors', function($query) use ($selectedColorIds) {
-                $query->whereIn('color_id', [$selectedColorIds]);
+                $query->whereIn('color_id', $selectedColorIds);
             });
         }
 
-        // if ($selectedSizeIds) {
-        //     $products = $products->whereHas('sizes', function($query) use ($selectedSizeIds) {
-        //         $query->whereIn('size_id', $selectedSizeIds);
-        //     });
-        // }
+        if ($selectedSizeIds) {
+            $products = $products->whereHas('sizes', function($query) use ($selectedSizeIds) {
+                $query->whereIn('size_id', $selectedSizeIds);
+            });
+        }
 
         if ($limit) {
             $products = $products->take($limit)->latest()->get();
         } elseif($pagination) {
             $products = $products->paginate(3);
-            // $products->appends(request()->all())->links();
         } else {
             $products = $products->get();
         }
